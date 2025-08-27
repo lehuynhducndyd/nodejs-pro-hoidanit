@@ -30,7 +30,7 @@
             <table class="table table-hover table-bordered">
                 <thead>
                     <th>Id</th>
-                    <th>Mane</th>
+                    <th>Name</th>
                     <th>Email</th>
                     <th>Address</th>
                     <th>Action</th>
@@ -51,9 +51,20 @@
                                 <%= user.address %>
                             </td>
                             <td>
-                                <button class="btn btn-danger">
-                                    Delete
-                                </button>
+                                <div style="display: flex; gap: 10px;">
+                                    <form action="/handle-delete-user/<%= user.id %>" method="post">
+                                        <button class="btn btn-danger" type="submit">
+                                            Delete
+                                        </button>
+                                    </form>
+                                    <form action="/handle-view-user/<%= user.id %>" method="get">
+                                        <button class="btn btn-warning" type="submit">
+                                            View
+                                        </button>
+                                    </form>
+                                </div>
+
+
                             </td>
                         </tr>
                         <% }); %>
