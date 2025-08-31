@@ -3,9 +3,11 @@ import { prisma } from "../config/client";
 const handleCreateUser = async (name: string, email: string, address: string) => {
     const newUser = await prisma.user.create({
         data: {
-            name,
-            email,
-            address
+            fullName: name,
+            username: email,
+            accountType: "USER",
+            password: "123456",
+            address: address
         }
     });
     return newUser;
@@ -40,9 +42,11 @@ const updateUserById = async (id: string, name: string, email: string, address: 
             id: parseInt(id)
         },
         data: {
-            name,
-            email,
-            address
+            fullName: name,
+            username: email,
+            accountType: "USER",
+            password: "123456",
+            address: address
         }
     });
     return updatedUser;

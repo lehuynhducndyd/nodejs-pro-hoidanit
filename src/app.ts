@@ -4,7 +4,7 @@ dotenv.config();
 
 import webRoutes from './routes/web';
 import getConnection from './config/database';
-
+import initDatabase from './config/seed';
 
 
 const app = express();
@@ -20,7 +20,9 @@ app.use(express.static('public'));
 //request req.body
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+//seeding data
 
+initDatabase();
 
 webRoutes(app);
 

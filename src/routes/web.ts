@@ -1,6 +1,7 @@
 import express, { Express } from 'express';
 const router = express.Router();
 import { getHomePage, getCreateUserPage, postCreateUser, postDeleteUser, getViewUser, postUpdateUser } from '../controllers/user.controller';
+import { getAdminUserPage, getDashBoardPage } from 'controllers/admin/dashboard.controller';
 
 const webRoutes = (app: Express) => {
     router.get('/', getHomePage);
@@ -9,6 +10,10 @@ const webRoutes = (app: Express) => {
     router.post('/handle-delete-user/:id', postDeleteUser);
     router.get('/handle-view-user/:id', getViewUser);
     router.post('/handle-update-user', postUpdateUser);
+    //admin route
+    router.get('/admin', getDashBoardPage);
+    router.get('/admin/user', getAdminUserPage);
+
     app.use('/', router);
 }
 
