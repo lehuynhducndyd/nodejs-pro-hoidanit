@@ -1,13 +1,22 @@
+import { ACCOUNT_TYPE } from "config/constant";
 import { prisma } from "../config/client";
 
-const handleCreateUser = async (name: string, email: string, address: string) => {
+const handleCreateUser = async (
+    name: string,
+    email: string,
+    address: string,
+    phone: string,
+    avatar: string,
+) => {
     const newUser = await prisma.user.create({
         data: {
             fullName: name,
             username: email,
-            accountType: "USER",
+            address: address,
+            accountType: ACCOUNT_TYPE.SYSTEM,
             password: "123456",
-            address: address
+            avatar: avatar,
+            phone: phone,
         }
     });
     return newUser;
