@@ -1,20 +1,11 @@
 import { prisma } from "config/client";
+import { hashPassword } from "services/user.service";
 
 const initDatabase = async () => {
     const countUser = await prisma.user.count();
     const countRole = await prisma.role.count();
-
-    if (countRole === 0) { }
-    if (countUser === 0) {
-        await prisma.user.createMany({
-            data: [
-                { username: "admin", password: "admin123", fullName: "Admin User", accountType: "ADMIN", },
-                { username: "user1", password: "user123", fullName: "User One", accountType: "USER" },
-                { username: "user2", password: "user123", fullName: "User Two", accountType: "USER" },
-            ],
-        }
-        );
-    } else if (countRole === 0) {
+    const defaultPassword = await hashPassword('123456');
+    if (countRole === 0) {
         await prisma.role.createMany({
             data: [
                 { name: "ADMIN", description: "Admin thì full quyền" },
@@ -22,7 +13,26 @@ const initDatabase = async () => {
             ],
         }
         );
-    } else {
+    }
+    if (countUser === 0) {
+        const adminRole = await prisma.role.findFirst({
+            where: { name: "ADMIN" }
+        });
+        const userRole = await prisma.role.findFirst({
+            where: { name: "USER" }
+        });
+        if (adminRole && userRole) {
+            await prisma.user.createMany({
+                data: [
+                    { fullName: "Admin", username: "admin", password: defaultPassword, accountType: "ADMIN", phone: "0123456789", address: "Hà Nội", roleId: adminRole.id },
+                    { fullName: "User", username: "user", password: defaultPassword, accountType: "USER", phone: "0987654321", address: "Hà Nội", roleId: userRole.id },
+                ],
+            }
+            );
+        }
+
+    }
+    if (countUser > 0 && countRole > 0) {
         console.log("Users already exist in the database. Skipping seeding.");
     }
 

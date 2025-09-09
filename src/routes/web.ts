@@ -7,10 +7,7 @@ import fileUploadMiddleware from 'src/middleware/multer';
 
 const webRoutes = (app: Express) => {
     router.get('/', getHomePage);
-    router.get('/create-user', getCreateUserPage);
-    router.post('/handle-create-user', postCreateUser);
-    router.post('/handle-delete-user/:id', postDeleteUser);
-    router.get('/handle-view-user/:id', getViewUser);
+
     router.post('/handle-update-user', postUpdateUser);
     //admin route
     router.get('/admin', getDashBoardPage);
@@ -19,6 +16,9 @@ const webRoutes = (app: Express) => {
     router.get('/admin/order', getAdminOrderPage);
     router.get('/admin/product', getAdminProductPage);
     router.post('/admin/handle-create-user', fileUploadMiddleware("avatar"), postCreateUser);
+    router.post('/admin/delete-user/:id', postDeleteUser);
+    router.get('/admin/view-user/:id', getViewUser);
+    router.post('/admin/update-user', fileUploadMiddleware("avatar"), postUpdateUser);
     app.use('/', router);
 }
 
