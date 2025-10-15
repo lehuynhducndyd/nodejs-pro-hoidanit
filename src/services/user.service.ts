@@ -8,6 +8,12 @@ const hashPassword = async (plainText: string) => {
     return hashedPassword;
 }
 
+const comparePassword = async (plainText: string, hashedPassword: string) => {
+    const isMatch = await bcrypt.compare(plainText, hashedPassword);
+    return isMatch;
+}
+
+
 const handleCreateUser = async (
     name: string,
     email: string,
@@ -83,4 +89,8 @@ const updateUserById = async (
     return updatedUser;
 }
 
-export { handleCreateUser, getAllUsers, handleDeleteUser, getUserById, updateUserById, getAllRoles, hashPassword };
+export {
+    handleCreateUser, getAllUsers, handleDeleteUser,
+    getUserById, updateUserById, getAllRoles,
+    hashPassword, comparePassword
+};
