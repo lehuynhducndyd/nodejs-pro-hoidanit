@@ -1,8 +1,8 @@
-import { get } from "http";
+
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
-import { handleLogin } from "services/client/auth.service";
-import { getUserById } from "services/user.service";
+import { getUserSumCart, getUserWithRoleId, handleLogin } from "services/client/auth.service";
+
 
 const configPassportLocal = () => {
     passport.use(new LocalStrategy({ passReqToCallback: true },
@@ -19,9 +19,9 @@ const configPassportLocal = () => {
     });
 
     passport.deserializeUser(async function (user: any, callback) {
-        const { id, username } = user;
-        const userInDB = await getUserById(id);
-
+        const { id } = user;
+        const userInDB = await getUserWithRoleId(id);
+        const sumCart = await getUserSumCart(id)
         return callback(null, { ...userInDB });
     });
 }

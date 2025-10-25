@@ -59,7 +59,7 @@ app.use((req, res, next) => {
 webRoutes(app);
 
 app.use((req, res) => {
-    res.send("404 Not Found")
+    res.render("status/404.ejs");
 })
 
 
